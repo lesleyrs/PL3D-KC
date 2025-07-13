@@ -31,6 +31,9 @@
 #if defined(WIN32) || defined(_WIN32) || defined(_WIN32_)
 /* windows */
 #define FW_OS_TYPE_WINDOWS  1
+#elif defined(__wasm) && !defined(__EMSCRIPTEN__)
+/* wasmlite */
+#define FW_OS_TYPE_WASM     1
 #else
 /* unix + X11 */
 #define FW_OS_TYPE_X11      1
