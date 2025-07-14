@@ -10,7 +10,7 @@ LIBS += -lc-dbg
 endif
 
 CC = clang --target=wasm32 --sysroot=../../wasmlite/libc -nodefaultlibs
-LIBS += -lm -Wl,--allow-undefined -Wl,--export-table
+LIBS += -lm -Wl,--export-table
 # LIBS += -Wl,--error-limit=0
 
 BIN_DIR = bin
