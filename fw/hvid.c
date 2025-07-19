@@ -87,23 +87,15 @@ static int kbd_pk2vk(int code) {
 }
 
 
-static bool onkeydown(void *user_data, int key, int code, int modifiers) {
+static bool onkey(void *user_data, bool pressed, int key, int code, int modifiers) {
     (void)user_data,(void)modifiers;
 
     int vk = kbd_pk2vk(code);
-    keyboard_func(vk ? vk : key);
-
-    if (code == DOM_PK_F5 || code == DOM_PK_F11 || code == DOM_PK_F12) {
-        return 0;
+    if (pressed) {
+        keyboard_func(vk ? vk : key);
+    } else {
+        keyboardup_func(vk ? vk : key);
     }
-    return 1;
-}
-
-static bool onkeyup(void *user_data, int key, int code, int modifiers) {
-    (void)user_data,(void)modifiers;
-
-    int vk = kbd_pk2vk(code);
-    keyboardup_func(vk ? vk : key);
 
     if (code == DOM_PK_F5 || code == DOM_PK_F11 || code == DOM_PK_F12) {
         return 0;
@@ -115,8 +107,7 @@ static bool onkeyup(void *user_data, int key, int code, int modifiers) {
 int  vid_open(char *title, int width, int height, int scale, int flags) {
     JS_createCanvas(width, height);
     JS_setTitle(title);
-    JS_addKeyDownEventListener(NULL, onkeydown);
-    JS_addKeyUpEventListener(NULL, onkeyup);
+    JS_addKeyEventListener(NULL, onkey);
 
     FW_curinfo.flags = flags;
     FW_curinfo.bytespp = 4; /* 4 bytes per pixel */

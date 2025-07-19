@@ -10,7 +10,7 @@ LIBS += -lc-dbg
 endif
 
 CC = clang --target=wasm32 --sysroot=../../wasmlite/libc -nodefaultlibs
-LIBS += -lm -Wl,--export-table
+LIBS += -lm -Wl,--export-table -Wl,--allow-undefined # allow undefined needed bc of the wasm-ld calls?
 # LIBS += -Wl,--error-limit=0
 
 BIN_DIR = bin
